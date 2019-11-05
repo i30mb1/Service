@@ -1,0 +1,41 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Status bar color ...-->
+        <item name="colorPrimaryDark">@color/colorOnPrimary</item>
+
+        <!-- Buttons, Toolbar, Selected Items, Tabs, Progress -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- A color top of the primary color (text color on Button, Toolbar, ...) -->
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <!-- A tonal variation of the primary color.-->
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+
+        <!-- Fab, Slider, CheckBox, Switch, Radio Button -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <!--  A color on top of the secondary color.-->
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <!--  A tonal variation of the secondary color.-->
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+
+        <item name="colorError">@color/colorError</item>
+
+        <!--тёмные иконки для светкой панели уведомления-->
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <!--        <item name="android:windowTranslucentNavigation">true</item>-->
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyApp.SmallComponent
+        </item>
+    </style>
+
+    <style name="Theme.MyApp.Main" parent="AppTheme">
+
+    </style>
+
+    <style name="ShapeAppearance.MyApp.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+    </style>
+</resources>

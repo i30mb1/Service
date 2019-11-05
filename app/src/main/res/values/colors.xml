@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light Theme -->
+    <color name="colorPrimary">#448aff</color>
+    <color name="colorPrimaryVariant">#7E57C2</color>
+    <color name="colorOnPrimary">#ffffff</color>
+    <color name="colorSecondary">#448aff</color>
+    <color name="colorSecondaryVariant">#7E57C2</color>
+    <color name="colorOnSecondary">#ffffff</color>
+
+    <color name="colorError">#D50000</color>
+
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#757575</color>
+
+    <!-- Dark Theme -->
+    <color name="colorPrimaryDark">#4F009F</color>
+    <color name="colorSecondaryDark">#4F009F</color>
+</resources>

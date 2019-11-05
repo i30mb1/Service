@@ -1,0 +1,9 @@
+<resources>
+
+
+    <style name="Theme.MyApp.Main" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorSecondaryDark</item>
+    </style>
+
+</resources>
