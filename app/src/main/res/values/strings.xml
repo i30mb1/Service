@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Shuvagin_L19_Service</string>
     <string name="main_fragment_switch_theme">switch theme</string>
+    <string name="main_fragment_add">ADD</string>
+    <string name="main_fragment_delete">DELETE</string>
+    <string name="main_fragment_light_theme">Light Theme</string>
+    <string name="main_fragment_dark_theme">Dark Theme</string>
 </resources>

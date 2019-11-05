@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
-import android.widget.Switch
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import com.example.shuvagin_l19_service.R
 import com.example.shuvagin_l19_service.databinding.MainFragmentBinding
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -20,34 +17,34 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
+    private lateinit var binding: MainFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding: MainFragmentBinding =
-            DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
-        binding.fragment = this
+        binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
+        binding.viewModel = viewModel
+        binding.fragment = this@MainFragment
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
+//        setDefaultValues()
     }
 
-    fun onSwitchClick(view: View) {
-        when ((view as Switch).isChecked) {
-            true -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            false -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+    private fun setDefaultValues() {
+        viewModel.isLightTheme.value?.let {
+            b_dark_theme.isChecked = !it
+            b_light_theme.isChecked = it
         }
+    }
+
+    fun setLightTheme(lightTheme: Boolean) {
+        viewModel.isLightTheme.value = lightTheme
     }
 
 }

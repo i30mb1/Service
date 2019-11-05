@@ -26,16 +26,21 @@
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <!--        <item name="android:windowTranslucentNavigation">true</item>-->
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyApp.SmallComponent
-        </item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MyApp.SmallComponent.Light</item>
     </style>
 
     <style name="Theme.MyApp.Main" parent="AppTheme">
 
     </style>
 
-    <style name="ShapeAppearance.MyApp.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
+    <style name="ShapeAppearance.MyApp.SmallComponent.Light" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
         <item name="cornerSize">0dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+    </style>
+    <style name="ShapeAppearance.MyApp.SmallComponent.Dark" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">0dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
     </style>
 </resources>

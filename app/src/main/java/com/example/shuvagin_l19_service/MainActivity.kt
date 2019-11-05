@@ -3,6 +3,7 @@ package com.example.shuvagin_l19_service
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.shuvagin_l19_service.ui.main.MainFragment
+import com.example.shuvagin_l19_service.ui.main.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
