@@ -1,11 +1,10 @@
 package com.example.shuvagin_l19_service.utils
 
-import android.view.View
-import android.widget.Button
-import android.widget.Switch
+import android.content.Context
+import android.util.TypedValue
+import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.BindingAdapter
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 
 @BindingAdapter("changeTheme")
@@ -20,7 +19,11 @@ fun MaterialButtonToggleGroup.changeTheme(isLightTheme: Boolean) {
     }
 }
 
-@BindingAdapter("isSelectedMy")
-fun MaterialButton.setSelectedForMaterialButton(selected: Boolean) {
-    this.isSelected = selected
+fun Context.getColorFromAttr(
+    @AttrRes attrColor: Int,
+    typedValue: TypedValue = TypedValue(),
+    resolveRefs: Boolean = true
+): Int {
+    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+    return typedValue.data
 }

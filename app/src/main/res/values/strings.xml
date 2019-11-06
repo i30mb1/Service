@@ -5,4 +5,15 @@
     <string name="main_fragment_delete">DELETE</string>
     <string name="main_fragment_light_theme">Light Theme</string>
     <string name="main_fragment_dark_theme">Dark Theme</string>
+    <string name="main_fragment_update">UPDATE</string>
+    <string name="main_fragment_create">CREATE</string>
+    <string name="main_fragment_put">PUT</string>
+    <string name="main_fragment_read">READ</string>
+    <string name="main_fragment_log">LOG</string>
+    <string name="main_fragment_open">OPEN</string>
+    <string name="main_fragment_save">SAVE</string>
+    <string name="main_fragment_edit">EDIT</string>
+    <string name="main_fragment_upload">UPLOAD</string>
+    <string name="main_fragment_load">LOAD</string>
+    <string name="main_fragment_read_logs">READ LOGS</string>
 </resources>
