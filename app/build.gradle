@@ -47,6 +47,13 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
 
+    // Fragment.findNavController + Fragment.navArgs
+    implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-beta01"
+    // setupActionBarWithNavController + setupWithNavController
+    implementation "androidx.navigation:navigation-ui-ktx:2.2.0-beta01"
+    // Activity.findNavController + Activity.navArgs + View.findNavController
+    implementation "androidx.navigation:navigation-runtime-ktx:2.2.0-beta01"
+
     // lifecycleScope + launchWhenResumed
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha01'
     // coroutines for liveData

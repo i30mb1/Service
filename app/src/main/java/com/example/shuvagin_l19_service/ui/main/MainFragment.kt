@@ -14,6 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.collection.arraySetOf
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentResolverCompat
+import androidx.core.content.IntentCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE
 import androidx.core.text.PrecomputedTextCompat
@@ -21,8 +24,11 @@ import androidx.core.text.color
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.loader.content.Loader
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.shuvagin_l19_service.FileSaveService
 import com.example.shuvagin_l19_service.R
 import com.example.shuvagin_l19_service.databinding.MainFragmentBinding
