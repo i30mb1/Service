@@ -103,13 +103,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/b_main_fragment_read_logs"
-                android:padding="10dp"
                 android:onClick="@{()->fragment.readLog()}"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="@string/main_fragment_read_logs" />
-
-
 
 
         <androidx.constraintlayout.helper.widget.Flow
@@ -125,11 +122,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
+            android:background="?myBackgroundColor"
             android:id="@+id/scroll_main_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scrollbars="none"
             android:overScrollMode="never"
-            android:padding="16dp"
             app:layout_constraintBottom_toTopOf="@id/bg_main_fragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +137,9 @@
                 android:id="@+id/tv_main_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom" />
+                android:gravity="bottom"
+                android:padding="16dp"
+                tools:text="@tools:sample/full_names" />
         </ScrollView>
 
 

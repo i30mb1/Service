@@ -19,6 +19,8 @@
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
 
         <item name="colorError">@color/colorError</item>
+        <!-- The background color appears behind scrollable content.-->
+        <item name="myBackgroundColor">@color/colorBackground</item>
 
         <!--тёмные иконки для светкой панели уведомления-->
         <item name="android:windowLightStatusBar">true</item>
@@ -36,6 +38,7 @@
         <item name="cornerSize">0dp</item>
         <item name="cornerSizeTopLeft">16dp</item>
     </style>
+
     <style name="ShapeAppearance.MyApp.SmallComponent.Dark" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">0dp</item>

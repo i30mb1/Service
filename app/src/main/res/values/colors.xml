@@ -10,10 +10,14 @@
 
     <color name="colorError">#D50000</color>
 
+    <color name="colorBackground">#19000000</color>
+
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSecondary">#757575</color>
 
     <!-- Dark Theme -->
     <color name="colorPrimaryDark">#4F009F</color>
     <color name="colorSecondaryDark">#4F009F</color>
+
+    <color name="colorBackgroundDark">#19FFFFFF</color>
 </resources>

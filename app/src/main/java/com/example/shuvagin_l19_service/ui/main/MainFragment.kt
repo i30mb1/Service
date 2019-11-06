@@ -13,20 +13,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.collection.arraySetOf
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE
+import androidx.core.text.PrecomputedTextCompat
 import androidx.core.text.color
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.shuvagin_l19_service.FileSaveService
 import com.example.shuvagin_l19_service.R
 import com.example.shuvagin_l19_service.databinding.MainFragmentBinding
 import com.example.shuvagin_l19_service.utils.getColorFromAttr
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
-import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainFragment : Fragment() {
 
@@ -78,6 +83,11 @@ class MainFragment : Fragment() {
         requireActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unbindService(connection)
+    }
+
     private fun setDefaultValues() {
         viewModel.isLightTheme.value?.let {
             binding.bDarkTheme.isChecked = !it
@@ -94,20 +104,23 @@ class MainFragment : Fragment() {
             .append((v as TextView).text)
             .color(requireContext().getColorFromAttr(R.attr.colorPrimary)) { append("\"\n") }
 
-        binding.bMainFragmentReadLogs
-        val badge = BadgeDrawable.create(requireContext()).apply {
-            number = 5
-        }
-        BadgeUtils.attachBadgeDrawable(badge, binding.flMainFragmentContainerReadLog, binding.flMainFragmentContainerReadLog)
+        arraySetOf<Int>() + arraySetOf<Int>()
+
         fileSaveService.save(textFile)
     }
 
     fun readLog() {
         if (!bound) return
-        tv_main_fragment_container.text = HtmlCompat.fromHtml(fileSaveService.read(), FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE)
-        Handler().postDelayed(Runnable {
+        lifecycleScope.launchWhenResumed {
+            val textMetricsParams = TextViewCompat.getTextMetricsParams(binding.tvMainFragmentContainer)
+            val precomputedText = withContext(Dispatchers.Default){
+                val text = HtmlCompat.fromHtml(fileSaveService.read(), FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE)
+                PrecomputedTextCompat.create(text,textMetricsParams)
+            }
+            TextViewCompat.setPrecomputedText(binding.tvMainFragmentContainer,precomputedText)
+            delay(100)
             scroll_main_fragment.fullScroll(View.FOCUS_DOWN)
-        }, 100)
+        }
 
     }
 

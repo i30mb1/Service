@@ -10,4 +10,5 @@ Libraries Used
     * [Data Binding](https://developer.android.com/topic/libraries/data-binding) - Declaratively bind observable data to UI elements.
 *  [DarkTheme](https://habr.com/ru/company/redmadrobot/blog/461201/) - Article how to implement dark theme
 *  [ConstraintLayout2](https://proandroiddev.com/awesomeness-of-constraintlayout-flow-aa0b5edd5df}
+*  [ColorTheme](https://stackoverflow.com/questions/30470437/android-theme-using-multiple-colors-xml) - set theme color via xml
 ![image](screen3.png)![image](screen2.png)![image](screen1.png)
