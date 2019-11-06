@@ -1,21 +1,31 @@
 package com.example.shuvagin_l19_service.ui.main
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE
 import androidx.core.text.color
-import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.shuvagin_l19_service.FileSaveService
 import com.example.shuvagin_l19_service.R
 import com.example.shuvagin_l19_service.databinding.MainFragmentBinding
 import com.example.shuvagin_l19_service.utils.getColorFromAttr
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
@@ -26,9 +36,27 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: MainFragmentBinding
+    lateinit var fileSaveService: FileSaveService
+    private var bound = false
+    private val connection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            bound = false
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as? FileSaveService.LocalBinder
+            binder?.let {
+                fileSaveService = binder.getService()
+                bound = true
+                readLog()
+            }
+        }
+
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
@@ -41,30 +69,55 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setDefaultValues()
+        binding.bMainFragmentReadLogs.setOnLongClickListener { v: View? -> deleteLog(); readLog(); true }
     }
 
-    @SuppressLint("SetTextI18n")
-    fun printLog(v: View) {
-        if (ll_main_fragment_container.childCount > 8) ll_main_fragment_container.removeAllViews()
-        TextView(context).apply {
-           text = SpannableStringBuilder().append("PRESSED ")
-                .color(requireContext().getColorFromAttr(R.attr.colorPrimary)) { append("\"") }
-                .append((v as TextView).text)
-                .color(requireContext().getColorFromAttr(R.attr.colorPrimary)) { append("\"") }
-            setPadding(10)
-            ll_main_fragment_container.addView(this)
-        }
+    override fun onStart() {
+        super.onStart()
+        val intent = Intent(requireContext(), FileSaveService::class.java)
+        requireActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
     private fun setDefaultValues() {
         viewModel.isLightTheme.value?.let {
-            b_dark_theme.isChecked = !it
-            b_light_theme.isChecked = it
+            binding.bDarkTheme.isChecked = !it
+            binding.bLightTheme.isChecked = it
+        }
+    }
+
+    @SuppressLint("SetTextI18n", "RestrictedApi")
+    fun saveLog(v: View) {
+        if (!bound) return
+
+        val textFile = SpannableStringBuilder().append("PRESSED ")
+            .color(requireContext().getColorFromAttr(R.attr.colorPrimary)) { append("\"") }
+            .append((v as TextView).text)
+            .color(requireContext().getColorFromAttr(R.attr.colorPrimary)) { append("\"\n") }
+
+        binding.bMainFragmentReadLogs
+        val badge = BadgeDrawable.create(requireContext()).apply {
+            number = 5
+        }
+        BadgeUtils.attachBadgeDrawable(badge, binding.flMainFragmentContainerReadLog, binding.flMainFragmentContainerReadLog)
+        fileSaveService.save(textFile)
+    }
+
+    fun readLog() {
+        if (!bound) return
+        tv_main_fragment_container.text = HtmlCompat.fromHtml(fileSaveService.read(), FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE)
+        Handler().postDelayed(Runnable {
+            scroll_main_fragment.fullScroll(View.FOCUS_DOWN)
+        }, 100)
+
+    }
+
+    fun deleteLog() {
+        if (bound) {
+            fileSaveService.deleteAll()
         }
     }
 
     fun setLightTheme(lightTheme: Boolean) {
         viewModel.isLightTheme.value = lightTheme
     }
-
 }
