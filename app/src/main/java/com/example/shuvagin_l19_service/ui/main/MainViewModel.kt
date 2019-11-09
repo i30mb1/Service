@@ -4,12 +4,13 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
      val text:LiveData<String> = liveData(Dispatchers.IO) {
           emit("ready")
      }
-     val isLightTheme = MutableLiveData<Boolean>(true)
+
+     var isLightTheme: MutableLiveData<Boolean> = state.getLiveData("theme", true)
 
      fun test() {
           viewModelScope.launch {  }

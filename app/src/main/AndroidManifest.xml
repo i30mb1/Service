@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp.Main">
         <service
-            android:name=".FileSaveService"
+            android:name=".LogService"
             android:enabled="true"
             android:exported="false"></service>
 
