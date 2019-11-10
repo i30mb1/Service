@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.shuvagin_l19_service.LogServiceHelper
 import com.example.shuvagin_l19_service.R
 import com.example.shuvagin_l19_service.databinding.MainFragmentBinding
-import com.example.shuvagin_l19_service.utils.Theme
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -60,12 +59,12 @@ class MainFragment : Fragment() {
     }
 
     private fun setDefaultValuesTheme() {
-        viewModel.isLightTheme.value?.let {
-            when (it) {
-                Theme.LIGHT -> binding.bLightTheme.isChecked = true
-                Theme.DARK -> binding.bDarkTheme.isChecked = true
-            }
-        }
+//        viewModel.isLightTheme.value?.let {
+//            when (it) {
+//                Theme.LIGHT -> binding.bLightTheme.isChecked = true
+//                Theme.DARK -> binding.bDarkTheme.isChecked = true
+//            }
+//        }
     }
 
 //    override fun onViewStateRestored(savedInstanceState: Bundle?) {

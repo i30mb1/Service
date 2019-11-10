@@ -23,8 +23,8 @@ import kotlin.coroutines.CoroutineContext
 
 class LogService : Service() {
 
-    val FILE_NAME = getString(R.string.log_service_file_name)
-    val FILE_PATH by lazy { getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) }
+    private val fileName by lazy { getString(R.string.log_service_file_name) }
+    private val filePath by lazy { getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) }
     private val binder = LocalBinder()
     private val serviceJob = Job()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
@@ -46,15 +46,15 @@ class LogService : Service() {
 
     fun saveText(text: SpannableStringBuilder) = serviceScope.launch(Dispatchers.IO) {
         val textSpannable = HtmlCompat.toHtml(text, TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)
-        File(FILE_PATH, FILE_NAME).appendBytes(textSpannable.toByteArray())
+        File(filePath, fileName).appendBytes(textSpannable.toByteArray())
     }
 
     fun deleteAll() = serviceScope.launch(Dispatchers.IO) {
-        File(FILE_PATH, FILE_NAME).writeText("")
+        File(filePath, fileName).writeText("")
     }
 
     suspend fun readText() = withContext(Dispatchers.IO) {
-        val file = File(FILE_PATH, FILE_NAME).takeIf { it.exists() }
+        val file = File(filePath, fileName).takeIf { it.exists() }
         file?.readText() ?: getString(R.string.log_service_cannot_read)
     }
 }

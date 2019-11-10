@@ -153,6 +153,8 @@
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/bg_main_fragment"
             changeTheme="@{viewModel.isLightTheme}"
+            idFirstButton="@{@id/b_light_theme}"
+            idSecondButton="@{@id/b_dark_theme}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
