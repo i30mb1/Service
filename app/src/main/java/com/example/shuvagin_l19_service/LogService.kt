@@ -26,8 +26,7 @@ class LogService : Service() {
     private val fileName by lazy { getString(R.string.log_service_file_name) }
     private val filePath by lazy { getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) }
     private val binder = LocalBinder()
-    private val serviceJob = Job()
-    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
+    private val serviceScope = CoroutineScope(Dispatchers.IO)
 
     override fun onBind(intent: Intent): IBinder = binder
 
@@ -37,19 +36,19 @@ class LogService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        serviceJob.cancel()
+        serviceScope.cancel()
     }
 
     inner class LocalBinder : Binder() {
         fun getService(): LogService = this@LogService
     }
 
-    fun saveText(text: SpannableStringBuilder) = serviceScope.launch(Dispatchers.IO) {
+    fun saveText(text: SpannableStringBuilder) = serviceScope.launch {
         val textSpannable = HtmlCompat.toHtml(text, TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)
         File(filePath, fileName).appendBytes(textSpannable.toByteArray())
     }
 
-    fun deleteAll() = serviceScope.launch(Dispatchers.IO) {
+    fun deleteAll() = serviceScope.launch {
         File(filePath, fileName).writeText("")
     }
 
@@ -59,11 +58,8 @@ class LogService : Service() {
     }
 }
 
-/**
- * Coroutine context that automatically is cancelled when UI is destroyed
- */
 class LogServiceHelper(private val activity: Activity) : LifecycleObserver, CoroutineScope {
-    private var job = Job()
+    private var job = SupervisorJob()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
     private val helperScope = CoroutineScope(coroutineContext)

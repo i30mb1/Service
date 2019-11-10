@@ -58,7 +58,7 @@ class MainFragment : Fragment() {
     fun readLog() {
         lifecycleScope.launchWhenResumed {
             val text = serviceHelper.readLog()
-            launch(Dispatchers.Main) {
+            launch(Dispatchers.Main.immediate) {
                 setTextFromLog(text)
             }
         }
