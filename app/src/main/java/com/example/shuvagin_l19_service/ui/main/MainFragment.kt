@@ -47,39 +47,9 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         lifecycle.addObserver(serviceHelper)
-        setDefaultValuesTheme()
-        serviceHelper.addServerConnectedListener {
-            readLog()
-        }
-        binding.bMainFragmentReadLogs.setOnLongClickListener { v: View? ->
-            deleteLog()
-            readLog()
-            true
-        }
+        serviceHelper.addServerConnectedListener { readLog() }
+        binding.bMainFragmentReadLogs.setOnLongClickListener { deleteLog(); readLog(); true }
     }
-
-    private fun setDefaultValuesTheme() {
-//        viewModel.isLightTheme.value?.let {
-//            when (it) {
-//                Theme.LIGHT -> binding.bLightTheme.isChecked = true
-//                Theme.DARK -> binding.bDarkTheme.isChecked = true
-//            }
-//        }
-    }
-
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//        savedInstanceState?.let {
-//            binding.bLightTheme.isChecked = it.getBoolean("bLightThemeChecked", binding.bLightTheme.isChecked)
-//            binding.bDarkTheme.isChecked = it.getBoolean("bDarkThemeChecked", binding.bDarkTheme.isChecked)
-//        }
-//    }
-//
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        outState.putBoolean("bLightThemeChecked", binding.bLightTheme.isChecked)
-//        outState.putBoolean("bDarkThemeChecked", binding.bDarkTheme.isChecked)
-//    }
 
     fun saveLog(v: View) {
         serviceHelper.saveLog((v as TextView).text.toString())
