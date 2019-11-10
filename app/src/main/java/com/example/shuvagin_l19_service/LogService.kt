@@ -23,7 +23,7 @@ import kotlin.coroutines.CoroutineContext
 
 class LogService : Service() {
 
-    val FILE_NAME = "log"
+    val FILE_NAME = getString(R.string.log_service_file_name)
     val FILE_PATH by lazy { getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) }
     private val binder = LocalBinder()
     private val serviceJob = Job()
@@ -68,6 +68,7 @@ class LogServiceHelper(private val activity: Activity) : LifecycleObserver, Coro
         get() = job + Dispatchers.Main
     private val helperScope = CoroutineScope(coroutineContext)
     private lateinit var fileSaveService: LogService
+    private var serviceConnected: (() -> Unit)? = null
     private var bound = false
     private val connection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -79,6 +80,7 @@ class LogServiceHelper(private val activity: Activity) : LifecycleObserver, Coro
             binder?.let {
                 fileSaveService = binder.getService()
                 bound = true
+                serviceConnected?.invoke()
             }
         }
     }
@@ -97,10 +99,14 @@ class LogServiceHelper(private val activity: Activity) : LifecycleObserver, Coro
         activity.unbindService(connection)
     }
 
+    fun addServerConnectedListener(listener: () -> Unit) {
+        serviceConnected = listener
+    }
+
     fun saveLog(text: String) {
         if (bound) {
             val textFile = SpannableStringBuilder().append(activity.getString(R.string.pressed))
-                .color(activity.getColorFromAttr(R.attr.colorPrimary)) { append("\"") }
+                .color(activity.getColorFromAttr(R.attr.colorPrimary)) { append(" \"") }
                 .append(text)
                 .color(activity.getColorFromAttr(R.attr.colorPrimary)) { append("\"\n") }
 
