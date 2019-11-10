@@ -13,6 +13,7 @@ Articles that helped me
   * [androidx.navigation:navigation-runtime-ktx:2.2.0-beta01](https://developer.android.com/kotlin/ktx?gclid=EAIaIQobChMIq-uL-Ivg5QIVh813Ch39WQ2nEAAYASAAEgIVKfD_BwE) - Acitivty.findNavController + Activity.navArgs + View.findNavController
   * [androidx.navigation:navigation-fragment-ktx:2.2.0-beta01](https://developer.android.com/kotlin/ktx?gclid=EAIaIQobChMIq-uL-Ivg5QIVh813Ch39WQ2nEAAYASAAEgIVKfD_BwE) - Fragment.findNavController + Fragment.navArgs
   * [androidx.navigation:navigation-ui-ktx:2.2.0-beta01]() - setupActionBarWithNavController for toolbar + setupWithNavController for bottomAppBar
+  * [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle) - handling lifecycle for objects
 *  [DarkTheme](https://habr.com/ru/company/redmadrobot/blog/461201/) - article how to implement dark theme
 *  [ConstraintLayout2](https://proandroiddev.com/awesomeness-of-constraintlayout-flow-aa0b5edd5df) - flow for arranging many elements
 *  [ColorTheme](https://stackoverflow.com/questions/30470437/android-theme-using-multiple-colors-xml) - set theme color via xml
