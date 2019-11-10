@@ -19,6 +19,7 @@ import com.example.shuvagin_l19_service.databinding.MainFragmentBinding
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainFragment : Fragment() {
@@ -27,7 +28,7 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private val logService by lazy { LogServiceHelper(requireActivity(), lifecycleScope) { setTextFromLog(it) } }
+    private val logServiceHelper by lazy { LogServiceHelper(requireActivity()) }
     private val viewModel: MainViewModel by viewModels { SavedStateViewModelFactory(requireActivity().application, this) }
     private lateinit var binding: MainFragmentBinding
 
@@ -45,45 +46,62 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        lifecycle.addObserver(logService)
-        setDefaultValues()
-        binding.bMainFragmentReadLogs.setOnLongClickListener { v: View? -> deleteLog(); readLog(); true }
+        lifecycle.addObserver(logServiceHelper)
+        binding.bMainFragmentReadLogs.setOnLongClickListener { v: View? ->
+            deleteLog()
+            readLog()
+            true
+        }
     }
 
-    private fun setDefaultValues() {
-        viewModel.isLightTheme.value?.let {
-            binding.bDarkTheme.isChecked = !it
-            binding.bLightTheme.isChecked = it
+//    private fun setDefaultValuesTheme() {
+//        viewModel.isLightTheme.value?.let {
+//            binding.bDarkTheme.isChecked = !it
+//            binding.bLightTheme.isChecked = it
+//        }
+//    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.let {
+            binding.bLightTheme.isChecked = it.getBoolean("bLightThemeChecked", binding.bLightTheme.isChecked)
+            binding.bDarkTheme.isChecked = it.getBoolean("bDarkThemeChecked", binding.bDarkTheme.isChecked)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("bLightThemeChecked", binding.bLightTheme.isChecked)
+        outState.putBoolean("bDarkThemeChecked", binding.bDarkTheme.isChecked)
     }
 
     fun saveLog(v: View) {
-        logService.saveLog((v as TextView).text.toString())
+        logServiceHelper.saveLog((v as TextView).text.toString())
     }
 
     fun readLog() {
-        logService.readLog()
-    }
-
-    private fun deleteLog() {
-        logService.deleteLog()
-    }
-
-    private fun setTextFromLog(text: String) {
         lifecycleScope.launchWhenResumed {
-            val textMetricsParams = TextViewCompat.getTextMetricsParams(binding.tvMainFragmentContainer)
-            val precomputedText = withContext(Dispatchers.Default) {
-                val hmtlText = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE)
-                PrecomputedTextCompat.create(hmtlText, textMetricsParams)
+            val text = logServiceHelper.readLog()
+            launch(Dispatchers.Main) {
+                setTextFromLog(text)
             }
-            TextViewCompat.setPrecomputedText(binding.tvMainFragmentContainer, precomputedText)
-            delay(100)
-            scroll_main_fragment.fullScroll(View.FOCUS_DOWN)
         }
     }
 
-    fun setLightTheme(lightTheme: Boolean) {
-        viewModel.isLightTheme.value = lightTheme
+    private fun deleteLog() {
+        logServiceHelper.deleteLog()
     }
+
+    private suspend fun setTextFromLog(text: String) {
+        val textMetricsParams = TextViewCompat.getTextMetricsParams(binding.tvMainFragmentContainer)
+        val precomputedText = withContext(Dispatchers.Default) {
+            val htmlText = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_BLOCKQUOTE)
+            PrecomputedTextCompat.create(htmlText, textMetricsParams)
+        }
+        TextViewCompat.setPrecomputedText(binding.tvMainFragmentContainer, precomputedText)
+        delay(100)
+        scroll_main_fragment.fullScroll(View.FOCUS_DOWN)
+    }
+
 
 }

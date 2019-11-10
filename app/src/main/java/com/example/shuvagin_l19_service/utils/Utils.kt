@@ -7,13 +7,15 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.BindingAdapter
 import com.google.android.material.button.MaterialButtonToggleGroup
 
+enum class Theme { LIGHT, DARK }
+
 @BindingAdapter("changeTheme")
-fun MaterialButtonToggleGroup.changeTheme(isLightTheme: Boolean) {
-    when (isLightTheme) {
-        true -> {
+fun MaterialButtonToggleGroup.changeTheme(theme: Theme) {
+    when (theme) {
+        Theme.LIGHT -> {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        false -> {
+        Theme.DARK -> {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }

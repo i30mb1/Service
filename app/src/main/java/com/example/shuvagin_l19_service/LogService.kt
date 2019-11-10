@@ -14,25 +14,22 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE
 import androidx.core.text.color
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.shuvagin_l19_service.utils.getColorFromAttr
+import kotlinx.coroutines.*
 import java.io.File
+import kotlin.coroutines.CoroutineContext
 
-class LogService
-    : Service() {
-    private val FILE_NAME = "log"
-    private val FILE_PATH by lazy {
-        getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-    }
+class LogService : Service() {
+
+    val FILE_NAME = "log"
+    val FILE_PATH by lazy { getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) }
     private val binder = LocalBinder()
+    private val serviceJob = Job()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     override fun onBind(intent: Intent): IBinder = binder
-
-    override fun onCreate() {
-        super.onCreate()
-    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_NOT_STICKY
@@ -40,34 +37,38 @@ class LogService
 
     override fun onDestroy() {
         super.onDestroy()
+        serviceJob.cancel()
     }
 
     inner class LocalBinder : Binder() {
-
         fun getService(): LogService = this@LogService
     }
 
-    fun save(text: SpannableStringBuilder) {
-        File(FILE_PATH, FILE_NAME).appendBytes(HtmlCompat.toHtml(text, TO_HTML_PARAGRAPH_LINES_CONSECUTIVE).toByteArray())
+    fun saveText(text: SpannableStringBuilder) = serviceScope.launch(Dispatchers.IO) {
+        val textSpannable = HtmlCompat.toHtml(text, TO_HTML_PARAGRAPH_LINES_CONSECUTIVE)
+        File(FILE_PATH, FILE_NAME).appendBytes(textSpannable.toByteArray())
     }
 
-    fun read(): String = File(FILE_PATH, FILE_NAME).takeIf {
-        it.exists()
-    }?.readText() ?: ""
-
-    fun deleteAll() {
+    fun deleteAll() = serviceScope.launch(Dispatchers.IO) {
         File(FILE_PATH, FILE_NAME).writeText("")
     }
+
+    suspend fun readText() = withContext(Dispatchers.IO) {
+        val file = File(FILE_PATH, FILE_NAME).takeIf { it.exists() }
+        file?.readText() ?: getString(R.string.log_service_cannot_read)
+    }
 }
 
-interface OnNewLogListener {
-    fun newLog(): String
-}
-
-class LogServiceHelper(private val activity: Activity, private val lifecycleScope: LifecycleCoroutineScope, val callBack: (text: String) -> Unit) : LifecycleObserver {
-    lateinit var fileSaveService: LogService
+/**
+ * Coroutine context that automatically is cancelled when UI is destroyed
+ */
+class LogServiceHelper(private val activity: Activity) : LifecycleObserver, CoroutineScope {
+    private var job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+    private val helperScope = CoroutineScope(coroutineContext)
+    private lateinit var fileSaveService: LogService
     private var bound = false
-    var OnNewLogListener: OnNewLogListener? = null
     private val connection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             bound = false
@@ -78,31 +79,33 @@ class LogServiceHelper(private val activity: Activity, private val lifecycleScop
             binder?.let {
                 fileSaveService = binder.getService()
                 bound = true
-                readLog()
             }
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    private fun onDestroyJob() = job.cancel()
+
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun bindService() {
+    private fun bindService() {
         val intent = Intent(activity, LogService::class.java)
         activity.bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun unbindService() {
+    private fun unbindService() {
         activity.unbindService(connection)
     }
 
     fun saveLog(text: String) {
-        if (!bound) return
+        if (bound) {
+            val textFile = SpannableStringBuilder().append(activity.getString(R.string.pressed))
+                .color(activity.getColorFromAttr(R.attr.colorPrimary)) { append("\"") }
+                .append(text)
+                .color(activity.getColorFromAttr(R.attr.colorPrimary)) { append("\"\n") }
 
-        val textFile = SpannableStringBuilder().append("PRESSED ")
-            .color(activity.getColorFromAttr(R.attr.colorPrimary)) { append("\"") }
-            .append(text)
-            .color(activity.getColorFromAttr(R.attr.colorPrimary)) { append("\"\n") }
-
-        fileSaveService.save(textFile)
+            fileSaveService.saveText(textFile)
+        }
     }
 
     fun deleteLog() {
@@ -111,11 +114,11 @@ class LogServiceHelper(private val activity: Activity, private val lifecycleScop
         }
     }
 
-    fun readLog() {
+    suspend fun readLog(): String {
         if (bound) {
-            val textFromServer = fileSaveService.read()
-            callBack.invoke(textFromServer)
+            return fileSaveService.readText()
         }
+        return activity.getString(R.string.log_service_helper_not_bound)
     }
 
 }

@@ -16,4 +16,7 @@
     <string name="main_fragment_upload">UPLOAD</string>
     <string name="main_fragment_load">LOAD</string>
     <string name="main_fragment_read_logs">READ LOGS</string>
+    <string name="log_service_cannot_read">cannot_read</string>
+    <string name="log_service_helper_not_bound">service not bound \n (╯°□°）╯︵ ┻━┻</string>
+    <string name="pressed"> PRESSED </string>
 </resources>

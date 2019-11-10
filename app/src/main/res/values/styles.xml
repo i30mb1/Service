@@ -35,14 +35,14 @@
 
     <style name="ShapeAppearance.MyApp.SmallComponent.Light" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
-        <item name="cornerSize">0dp</item>
-        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSize">@dimen/dimenCornerSize</item>
+        <item name="cornerSizeTopRight">@dimen/cornerSizeTopRight</item>
     </style>
 
     <style name="ShapeAppearance.MyApp.SmallComponent.Dark" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
-        <item name="cornerSize">0dp</item>
-        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSize">@dimen/dimenCornerSize</item>
+        <item name="cornerSizeTopRight">@dimen/cornerSizeTopRight</item>
     </style>
 
     <style name="WindowAnimationTransition">

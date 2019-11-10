@@ -4,9 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.example.shuvagin_l19_service.utils.Theme" />
+
         <variable
             name="fragment"
             type="com.example.shuvagin_l19_service.ui.main.MainFragment" />
+
         <variable
             name="viewModel"
             type="com.example.shuvagin_l19_service.ui.main.MainViewModel" />
@@ -19,115 +23,118 @@
         tools:context=".ui.main.MainFragment">
 
         <com.google.android.material.button.MaterialButton
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:id="@+id/b_main_fragment_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_add" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_delete"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_delete" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_update"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_update" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_create"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_create" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_put"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_put" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_read"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_read" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_log"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_log" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_open"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_open" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_save"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_save" />
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_edit"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_edit" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_upload"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_upload" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b_main_fragment_load"
-            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{(view)->fragment.saveLog(view)}"
             android:text="@string/main_fragment_load" />
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/b_main_fragment_read_logs"
-                android:onClick="@{()->fragment.readLog()}"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="@string/main_fragment_read_logs" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b_main_fragment_read_logs"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->fragment.readLog()}"
+            android:text="@string/main_fragment_read_logs" />
 
 
         <androidx.constraintlayout.helper.widget.Flow
-            android:padding="20dp"
             android:id="@+id/flow_main_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
             app:constraint_referenced_ids="b_main_fragment_add,b_main_fragment_delete,b_main_fragment_update,b_main_fragment_create,b_main_fragment_put,b_main_fragment_read,b_main_fragment_log,b_main_fragment_open,b_main_fragment_save,b_main_fragment_edit,b_main_fragment_upload,b_main_fragment_load,b_main_fragment_read_logs"
             app:flow_maxElementsWrap="3"
             app:flow_wrapMode="chain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
-            android:background="?myBackgroundColor"
             android:id="@+id/scroll_main_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scrollbars="none"
+            android:background="?myBackgroundColor"
             android:overScrollMode="never"
+            android:scrollbars="none"
             app:layout_constraintBottom_toTopOf="@id/bg_main_fragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -149,25 +156,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:singleSelection="true"
+            app:checkedButton="@+id/b_light_theme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/b_light_theme"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/main_fragment_light_theme"
-                android:onClick="@{()->fragment.setLightTheme(true)}"/>
+                android:onClick="@{()->viewModel.setLightTheme(Theme.LIGHT)}"
+                android:text="@string/main_fragment_light_theme" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/b_dark_theme"
-                android:onClick="@{()->fragment.setLightTheme(false)}"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.setLightTheme(Theme.DARK)}"
                 android:text="@string/main_fragment_dark_theme" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
