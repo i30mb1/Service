@@ -21,4 +21,4 @@ Articles that helped me
 *  [StrictMode](https://developer.android.com/reference/android/os/StrictMode) - StrictMode is a developer tool which detects things you might be doing by accident and brings them to your attention so you can fix them.
 *  [CustomAttrInTheme](https://stackoverflow.com/questions/6860886/custom-attributes-in-styles-xml) - easy way to create custom attribute for theme
 
-![image](screen3.png)![image](screen2.png)![image](screen1.png)
+![image](screen3.png)![image](screen4.png)![image](screen2.png)![image](screen5.png)
